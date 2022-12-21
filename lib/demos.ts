@@ -13,11 +13,21 @@ export const demos: Item[] = [
     name: '基础教程',
     items: [
       {
-        name: "基础场景",
+        name: '基础场景',
         slug: 'basic',
         description: '创建一个基础的Threejs场景',
-      }
-    ]
+      },
+      {
+        name: '基础场景',
+        slug: 'basic',
+        description: '创建一个基础的Threejs场景',
+      },
+      {
+        name: '基础场景',
+        slug: 'basic',
+        description: '创建一个基础的Threejs场景',
+      },
+    ],
   },
   {
     name: 'Layouts',
