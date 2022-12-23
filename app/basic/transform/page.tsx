@@ -10,7 +10,37 @@ export default function Transform() {
     const scene = new THREE.Scene();
     /**
      * Objects
+     *
+     * You can put objects inside groups and use postion, rotation(or quaternion),
+     * and scale on those groups
+     * To do that, use the Group class.
      */
+    const group = new THREE.Group();
+    group.position.y = 1;
+    group.scale.y = 0.5;
+    group.rotation.y = 1;
+    scene.add(group);
+
+    const cube1 = new THREE.Mesh(
+      new THREE.BoxGeometry(1, 1, 1),
+      new THREE.MeshBasicMaterial({ color: 0xff0000 }),
+    );
+
+    group.add(cube1);
+
+    const cube2 = new THREE.Mesh(
+      new THREE.BoxGeometry(1, 1, 1),
+      new THREE.MeshBasicMaterial({ color: 0x00ff00 }),
+    );
+    cube2.position.x = -2;
+    group.add(cube2);
+
+    const cube3 = new THREE.Mesh(
+      new THREE.BoxGeometry(1, 1, 1),
+      new THREE.MeshBasicMaterial({ color: 0x0000ff }),
+    );
+    cube3.position.x = 2;
+    group.add(cube3);
 
     // Red cube
     const geometry = new THREE.BoxGeometry(1, 1, 1);
@@ -24,8 +54,37 @@ export default function Transform() {
     const material = new THREE.MeshBasicMaterial({ color: '0xff0000' });
     // Instantiate the Mesh with the geometry and the material
     const mesh = new THREE.Mesh(geometry, material);
-    mesh.position.x = 1;
     scene.add(mesh);
+
+    // Position
+    // mesh.position.x = 1;
+    // mesh.position.y = -0.6;
+    // mesh.position.z = 1;
+    mesh.position.set(0.7, -0.6, 1);
+
+    // Scale
+    // mesh.scale.x = 2;
+    // mesh.scale.y = 0.5;
+    // mesh.scale.z = 0.5;
+    mesh.scale.set(2, 0.5, 0.5);
+
+    // Rotation
+    /**
+     * Thre value of these axes is expressed in radians
+     * Half a rotation is something like 3.14159... but you can use Math.PI
+     *
+     * Be careful, when you rotate on an axis, you might also rotate the other
+     * axis.
+     * The rotation goes by default in the x,y and z order and you can get strange
+     * result like an axis not working anymore. This is called gimbal lock.
+     * You can change this order by using the reorder(...) method: object.rotation.reorder('yxz')
+     * Do it before changing the rotation.
+     */
+    mesh.rotation.y = Math.PI / 2;
+
+    // Axes helper
+    const axesHelper = new THREE.AxesHelper(2);
+    scene.add(axesHelper);
 
     /**
      * Sizes
@@ -54,6 +113,13 @@ export default function Transform() {
     // Move the camera backward before doing the render
     camera.position.z = 3;
     scene.add(camera);
+
+    /**
+     * Object3D instances have a lookAt(...) method which rotates the object so
+     * that its -z faces the target you provided.
+     * The target must be a Vector3
+     */
+    camera.lookAt(mesh.position);
 
     /**
      * RENDERER
